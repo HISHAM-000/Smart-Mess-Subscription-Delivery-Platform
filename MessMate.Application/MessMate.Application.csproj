@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
+    <PackageReference Include="FluentValidation" Version="12.1.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
+    <PackageReference Include="MediatR" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MessMate.Domain\MessMate.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\RoleApplications\Validators\" />
+    <Folder Include="Features\Auth\Queries\" />
+    <Folder Include="Features\Category\" />
+    <Folder Include="Features\Mess\" />
+    <Folder Include="Features\MealPlans\" />
+    <Folder Include="Features\Delivery\" />
+    <Folder Include="Features\Orders\" />
+    <Folder Include="Features\Subscriptions\" />
+  </ItemGroup>
+
+</Project>
