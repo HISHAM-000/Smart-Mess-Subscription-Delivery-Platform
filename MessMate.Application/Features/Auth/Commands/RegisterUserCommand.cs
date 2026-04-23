@@ -12,7 +12,6 @@ namespace MessMate.Application.Features.Auth.Commands
         string name,
         string Email,
         string PhoneNumber,
-        string Password,
-        UserRole Role):IRequest<Guid>;
-    
+        string Password) : IRequest<int>;
+
 }

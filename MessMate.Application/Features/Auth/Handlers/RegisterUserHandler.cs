@@ -1,40 +1,43 @@
 ﻿using MediatR;
 using MessMate.Application.Common.Exceptions;
 using MessMate.Application.Features.Auth.Commands;
-using MessMate.Application.Interfaces.Repositories;
 using MessMate.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MessMate.Domain.Interfaces.Contracts;
+
+
 
 namespace MessMate.Application.Features.Auth.Handlers
 {
-    public class RegisterUserHandler:IRequestHandler<RegisterUserCommand,Guid>
+    public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, int>
     {
-        private readonly IUserRepository _userRepository;
-        public RegisterUserHandler(IUserRepository userRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public RegisterUserHandler(IUnitOfWork unitOfWork)
         {
-            _userRepository = userRepository;      
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<Guid> Handle(RegisterUserCommand request,CancellationToken token)
+        public async Task<int> Handle(RegisterUserCommand request, CancellationToken token)
         {
-            var existingUser = await _userRepository.GetByEmailAsync(request.Email);
-            if(existingUser != null)
+            var email = request.Email.Trim();
+            var name = request.name.Trim();
+            var phone = request.PhoneNumber.Trim();
+            var password = request.Password.Trim();
+
+            var existingUser = await _unitOfWork.Users.GetByEmailAsync(email);
+            if (existingUser != null)
                 throw new AlreadyExistsException("User Already exists");
 
             var user = new User
             {
-                Name = request.name,
-                Email = request.Email,
-                PhoneNumber = request.PhoneNumber,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
-                Role = request.Role
+                Name = name,
+                Email = email,
+                PhoneNumber = phone,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
+                Role = Domain.Enums.UserRole.Customer,
+                IsActive = true,
             };
-            await _userRepository.AddAsync(user);
-            await _userRepository.SaveChangesAsync();
+            await _unitOfWork.Users.AddAsync(user);
+            await _unitOfWork.SaveChangesAsync();
             return user.Id;
         }
     }

@@ -9,7 +9,8 @@ namespace MessMate.Domain.Entities
 {
     public class RefreshToken:BaseEntity
     {
-        public Guid UserId { get; set; }
+        public int Id { get; set; }
+        public int UserId { get; set; }
         public string Token { get; set; } = null!;
         public DateTime ExpiryDate { get; set; }
         public DateTime? RevokedAt { get; set; }

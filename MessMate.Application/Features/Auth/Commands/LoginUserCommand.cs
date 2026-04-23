@@ -8,9 +8,12 @@ using System.Threading.Tasks;
 
 namespace MessMate.Application.Features.Auth.Commands
 {
-    public class LoginUserCommand:IRequest<LoginResponse>
-    {
-        public string Email { get; set; } = null!;
-        public string Password { get; set; } = null!;
-    }
+    //public class LoginUserCommand:IRequest<LoginResponse>
+    //{
+    //    public string Email { get; set; } = null!;
+    //    public string Password { get; set; } = null!;
+    //}
+    public record LoginUserCommand(
+         string Email,
+         string Password):IRequest<LoginResponse>;
 }

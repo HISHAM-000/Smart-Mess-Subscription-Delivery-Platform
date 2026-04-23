@@ -10,7 +10,7 @@ namespace MessMate.Domain.Enums
     {
         Customer = 1,
         MessOwner = 2,
-        DeliveryPartner = 3,
+        MessStaff = 3,
         Admin = 4
     }
 }

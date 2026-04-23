@@ -50,6 +50,18 @@ namespace MessMate.Api.Middlewares
                     errors = new List<string> { exception.Message };
                     break;
 
+                case ConflictException:
+                    statusCode = (int)HttpStatusCode.Conflict;
+                    message = exception.Message;
+                    errors = new List<string> { exception.Message };
+                    break;
+
+                case ForbiddenException:
+                    statusCode = (int)HttpStatusCode.Forbidden;
+                    message = exception.Message;
+                    errors = new List<string> { exception.Message };
+                    break;
+
                 case NotFoundException:
                     statusCode = (int)HttpStatusCode.NotFound;
                     message = exception.Message;

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MessMate.Infrastructure.Services
 {
-    public class JwtService:ITokenService
+    public class JwtService : ITokenService
     {
         private readonly JwtSettings _jwtSettings;
 

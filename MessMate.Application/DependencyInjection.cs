@@ -2,6 +2,8 @@
 using MediatR;
 using MessMate.Application.Common.Behaviors;
 using MessMate.Application.Features.Auth.Validators;
+//using MessMate.Application.Services.Implementation;
+//using MessMate.Application.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,7 @@ namespace MessMate.Application
             Assembly.GetExecutingAssembly()));
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            //services.AddScoped<IMessService, MessService>();
             return services;
         }
     }

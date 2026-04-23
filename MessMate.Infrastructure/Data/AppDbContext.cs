@@ -15,13 +15,22 @@ namespace MessMate.Infrastructure.Data
         }
         public DbSet<User> Users { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
-        public DbSet<RoleApplication> RoleApplications { get; set; }
+        public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
+        public DbSet<Mess> Messes { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<SubscriptionPlan> SubscriptionPlans => Set<SubscriptionPlan>();
+        public DbSet<CustomerSubscription> CustomerSubscriptions => Set<CustomerSubscription>();
+        public DbSet<Order> Orders => Set<Order>();
+        public DbSet<MealSkip> MealSkips => Set<MealSkip>();
+        public DbSet<Delivery> Deliveries => Set<Delivery>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<RefreshToken>()
-                .HasOne(r => r.User)
-                .WithMany(u => u.RefreshTokens)
-                .HasForeignKey(r => r.UserId);
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(
+                typeof(AppDbContext).Assembly);
         }
     }
 }

@@ -1,5 +1,10 @@
 using MessMate.Api.Extensions;
 using MessMate.Api.Middlewares;
+using MessMate.Api.Services;
+using MessMate.API.Extensions;
+
+
+//using MessMate.Api.Services;
 using MessMate.Application;
 using MessMate.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddSerilogLogging();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddJwtAuthentication(builder.Configuration);
+builder.Services.AddScoped<CookieService>();
+builder.Services.AddCorsPolicy(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddSwaggerDocumentation();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -24,6 +32,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
+app.UseCors("AllowAngular");
 app.UseAuthentication();
 app.UseAuthorization();
 

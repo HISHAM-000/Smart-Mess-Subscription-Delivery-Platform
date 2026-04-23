@@ -18,14 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\RoleApplications\Validators\" />
+    <Folder Include="Features\Menu\Validators\" />
+    <Folder Include="Features\Mess\Validators\" />
     <Folder Include="Features\Auth\Queries\" />
-    <Folder Include="Features\Category\" />
-    <Folder Include="Features\Mess\" />
     <Folder Include="Features\MealPlans\" />
-    <Folder Include="Features\Delivery\" />
-    <Folder Include="Features\Orders\" />
-    <Folder Include="Features\Subscriptions\" />
+    <Folder Include="Interfaces\Repositories\" />
   </ItemGroup>
 
 </Project>

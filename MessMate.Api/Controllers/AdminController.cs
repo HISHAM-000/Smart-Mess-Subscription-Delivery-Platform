@@ -1,7 +1,12 @@
 ﻿using MediatR;
 using MessMate.Application.Common.Responses;
-using MessMate.Application.Features.RoleApplications.Commands;
-using MessMate.Application.Features.RoleApplications.Queries;
+using MessMate.Application.Features.Applications.DTOs;
+using MessMate.Application.Features.Applications.Queries;
+using MessMate.Application.Features.Auth.Commands;
+using MessMate.Application.Features.Orders.Commands;
+using MessMate.Domain.Entities;
+using MessMate.Domain.Enums;
+using MessMate.Domain.Interfaces.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,34 +19,22 @@ namespace MessMate.Api.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public AdminController(IMediator mediator)
+        private readonly IServiceScopeFactory _scopeFactory;
+        public AdminController(IMediator mediator, IServiceScopeFactory scopeFactor)
         {
             _mediator = mediator;
+            _scopeFactory = scopeFactor;
         }
 
-        [HttpGet("applications")]
-        public async Task<IActionResult> GetPendingApplications()
+        [Authorize(Roles = "Admin")]
+        [HttpPost("trigger-order-generation")]
+        public async Task<IActionResult> TriggerOrderGeneration(CancellationToken ct)
         {
-            var result = await _mediator.Send(new GetPendingApplicationsQuery());
-            return Ok(result);
+            var count = await _mediator.Send(new GenerateOrdersCommand(), ct);
+
+            return Ok(ApiResponse<string?>.SuccessResponse(
+                null, $"{count} orders generated for today."));
         }
 
-        [HttpPost("applications/{id}/approve")]
-        public async Task<IActionResult> Approve(Guid id)
-        {
-            var result = await _mediator.Send(
-                new ApproveApplicationCommand { ApplicationId = id });
-
-            return Ok(ApiResponse<Unit>.SuccessResponse(result,"Application approved Successfully"));
-        }
-
-        [HttpPost("applications/{id}/reject")]
-        public async Task<IActionResult> Reject(Guid id)
-        {
-            var result = await _mediator.Send(
-                new RejectApplicationCommand { ApplicationId = id });
-
-            return Ok(ApiResponse<Unit>.SuccessResponse(result,"Application rejected"));
-        }
     }
 }

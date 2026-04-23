@@ -1,5 +1,6 @@
-﻿using MessMate.Application.Interfaces.Repositories;
+﻿
 using MessMate.Domain.Entities;
+using MessMate.Domain.Interfaces.Repositories;
 using MessMate.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,15 +11,11 @@ using System.Threading.Tasks;
 
 namespace MessMate.Infrastructure.Repositories
 {
-    public class RefreshTokenRepository:IRefreshTokenRepository
+    public class RefreshTokenRepository : GenericRepository<RefreshToken>,IRefreshTokenRepository
     {
-        private readonly AppDbContext _context;
-        public RefreshTokenRepository(AppDbContext context)
-        {
-            _context = context;
-        }
+        public RefreshTokenRepository(AppDbContext context) : base(context) { }
 
-        public async Task<RefreshToken?> GetByUserIdAsync(Guid userId)
+        public async Task<RefreshToken?> GetByUserIdAsync(int userId)
         {
             return await _context.RefreshTokens.FirstOrDefaultAsync(x => x.Id == userId);
         }
@@ -29,19 +26,5 @@ namespace MessMate.Infrastructure.Repositories
                 .FirstOrDefaultAsync(x => x.Token == token);
         }
 
-        public async Task AddAsync(RefreshToken refreshToken)
-        {
-            await _context.RefreshTokens.AddAsync(refreshToken);
-        }
-
-        public void Update(RefreshToken refreshToken)
-        {
-            _context.RefreshTokens.Update(refreshToken);
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
     }
 }

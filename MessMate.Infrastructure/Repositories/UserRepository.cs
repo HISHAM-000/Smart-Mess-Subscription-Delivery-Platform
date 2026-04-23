@@ -1,47 +1,45 @@
-﻿using MessMate.Application.Interfaces.Repositories;
+﻿
 using MessMate.Domain.Entities;
+using MessMate.Domain.Enums;
+using MessMate.Domain.Interfaces.Repositories;
 using MessMate.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace MessMate.Infrastructure.Repositories
 {
-    public class UserRepository:IUserRepository
+    public class UserRepository : GenericRepository<User>,IUserRepository
     {
-        private readonly AppDbContext _context;
-        public UserRepository(AppDbContext context)
-        {
-            _context = context;
-        }
+        public UserRepository(AppDbContext context) : base(context) { }
 
-        public async Task<User?> GetByIdAsync(Guid id)
-        {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
-        }
         public async Task<User?> GetByEmailAsync(string email)
         {
             return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
-            
+
+        }
+        public async Task<User?> GetByLicenseNumberAsync(string number)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.LicenseNumber == number);
+        }
+        public async Task<List<User>> GetPendingOwnersAsync()
+        {
+            return await _context.Users
+        .Where(u => u.Role == UserRole.MessOwner
+                 && !u.IsActive
+                 && u.IsDeleted != true)
+        .OrderByDescending(u => u.CreatedOn)
+        .ToListAsync();
         }
 
-        public async Task AddAsync(User user)
+        public async Task<List<User>> GetStaffByMessIdAsync(int messId)
         {
-            await _context.Users.AddAsync(user);
-        }
-
-        public async Task UpdateAsync(User user)
-        {
-             _context.Users.Update(user);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
+            return await _context.Users
+                .Where(u =>
+                    u.Role == UserRole.MessStaff &&
+                    u.MessId == messId &&
+                    u.IsDeleted != true)
+                .OrderByDescending(u => u.CreatedOn)
+                .ToListAsync();
         }
     }
 }

@@ -8,6 +8,8 @@ namespace MessMate.Application.Interfaces.Services
 {
     public interface ICurrentUserService
     {
-        Guid UserId { get; }
+        int UserId { get; }
+        string Role { get; }
+        bool IsAuthenticated { get; }
     }
 }
