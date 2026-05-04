@@ -42,6 +42,7 @@ namespace MessMate.Infrastructure
             options.UseSqlServer(
                 configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUserRepository,UserRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
             services.AddScoped<ITokenService, JwtService>();

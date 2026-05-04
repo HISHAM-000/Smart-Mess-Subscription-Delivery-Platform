@@ -12,7 +12,7 @@ namespace MessMate.Application.Features.Orders.DTOs
         public string CustomerName { get; set; } = null!;
         public string DeliveryAddress { get; set; } = null!;
         public string MealSlot { get; set; } = null!;
-        public string Status { get; set; } = null!;
+        public int Status { get; set; } 
         public decimal Amount { get; set; }
         public DateTime OrderDate { get; set; }
     }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MessMate.Infrastructure.Repositories
 {
-    public class MessRepository : GenericRepository<Mess>,IMessRepository
+    public class MessRepository : GenericRepository<Mess>, IMessRepository
     {
         public MessRepository(AppDbContext context) : base(context) { }
 
@@ -47,6 +47,17 @@ namespace MessMate.Infrastructure.Repositories
             .OrderByDescending(m => m.CreatedOn)
             .ToListAsync();
         }
-   
+
+        public async Task<Mess?> GetByStaffIdAsync(int staffId)
+        {
+            var user = await _context.Users
+        .FirstOrDefaultAsync(u => u.Id == staffId);
+
+            if (user == null || user.MessId == null)
+                return null;
+
+            return await _context.Messes
+                .FirstOrDefaultAsync(m => m.Id == user.MessId);
+        }
     }
 }

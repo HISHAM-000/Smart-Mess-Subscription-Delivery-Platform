@@ -16,7 +16,7 @@ namespace MessMate.Api.Services
             {
                 HttpOnly = true,
                 Secure = true,
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.None,
                 Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes)
             };
 
@@ -24,7 +24,7 @@ namespace MessMate.Api.Services
             {
                 HttpOnly = true,
                 Secure = true,
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.None,
                 Expires = DateTime.UtcNow.AddDays(7)
             };
 

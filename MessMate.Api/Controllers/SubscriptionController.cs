@@ -108,7 +108,7 @@ namespace MessMate.Api.Controllers
 
         [Authorize(Roles = "MessOwner")]
         [HttpPut("update-plan/{planId}")]
-        public async Task<IActionResult> UpdatePlan(int planId, UpdateSubscriptionPlanCommand command)
+        public async Task<IActionResult> UpdatePlan(int planId, [FromBody] UpdateSubscriptionPlanCommand command)
         {
             var updatedCommand = command with { PlanId = planId };
             var result = await _mediator.Send(updatedCommand);
@@ -116,6 +116,13 @@ namespace MessMate.Api.Controllers
                 result, "Updated Successfully"));
         }
 
+        [HttpGet("get-plansById/{id}")]
+        public async Task<IActionResult> GetPlanById(int id)
+        {
+            var result = await _mediator.Send(new GetPlanByIdQuery(id));
+
+            return Ok(ApiResponse<SubscriptionPlanDto>.SuccessResponse(result));
+        }
 
     }
 }

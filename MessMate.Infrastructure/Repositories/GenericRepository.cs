@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,6 +45,11 @@ namespace MessMate.Infrastructure.Repositories
         {
             _dbSet.Remove(entity);
             return Task.CompletedTask;
+        }
+
+        public async Task<T?> GetAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbSet.FirstOrDefaultAsync(predicate);
         }
     }
 }

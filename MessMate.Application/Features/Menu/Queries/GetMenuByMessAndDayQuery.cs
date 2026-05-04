@@ -11,5 +11,5 @@ namespace MessMate.Application.Features.Menu.Queries
     public record GetMenuByMessAndDayQuery(
     int MessId,
     DayOfWeek Day
-) : IRequest<List<MenuItemDto>>;
+) : IRequest<MenuResponseDto>;
 }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace MessMate.Application.Features.Menu.Handlers
 {
     public class GetMenuByMessAndDayQueryHandler
-    : IRequestHandler<GetMenuByMessAndDayQuery, List<MenuItemDto>>
+    : IRequestHandler<GetMenuByMessAndDayQuery, MenuResponseDto>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -21,7 +21,7 @@ namespace MessMate.Application.Features.Menu.Handlers
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<MenuItemDto>> Handle(
+        public async Task<MenuResponseDto> Handle(
         GetMenuByMessAndDayQuery request,
         CancellationToken cancellationToken)
         {
@@ -34,15 +34,20 @@ namespace MessMate.Application.Features.Menu.Handlers
             var items = await _unitOfWork.MenuItems
                 .GetByMenuIdAsync(menu.Id);
 
-            return items.Select(i => new MenuItemDto
+            return new MenuResponseDto
             {
-                Id = i.Id,
-                Name = i.Name,
-                Description = i.Description,
-                MealSlot = i.MealSlot,
-                IsVeg = i.IsVeg,
-                IsAvailable = i.IsAvailable
-            }).ToList();
+                Id = menu.Id,
+                Day = menu.Day,
+                Items = items.Select(i => new MenuItemDto
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Description = i.Description,
+                    MealSlot = i.MealSlot,
+                    IsVeg = i.IsVeg,
+                    IsAvailable = i.IsAvailable
+                }).ToList()
+            };
         }
     }
 }

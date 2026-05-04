@@ -13,5 +13,6 @@ namespace MessMate.Domain.Interfaces.Repositories
         Task<User?> GetByLicenseNumberAsync(string number);
         Task<List<User>> GetPendingOwnersAsync();
         Task<List<User>> GetStaffByMessIdAsync(int messId);
+        
     }
 }

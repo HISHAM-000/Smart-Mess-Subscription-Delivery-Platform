@@ -41,5 +41,7 @@ namespace MessMate.Infrastructure.Repositories
                 .OrderByDescending(u => u.CreatedOn)
                 .ToListAsync();
         }
+
+        
     }
 }

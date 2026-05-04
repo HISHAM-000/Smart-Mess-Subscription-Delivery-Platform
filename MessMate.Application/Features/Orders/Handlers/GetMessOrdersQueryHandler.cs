@@ -32,8 +32,17 @@ namespace MessMate.Application.Features.Orders.Handlers
         {
 
             var mess = await _unitOfWork.Messes
-                .GetByOwnerIdAsync(_currentUser.UserId)
-                ?? throw new NotFoundException("Mess not found for this owner.");
+                .GetByOwnerIdAsync(_currentUser.UserId);
+
+            if (mess == null)
+            {
+                mess = await _unitOfWork.Messes
+                    .GetByStaffIdAsync(_currentUser.UserId);
+            }
+
+            if (mess == null)
+                throw new NotFoundException("Mess not found for this user.");
+
 
             var date = string.IsNullOrEmpty(request.Date)
                 ? DateTime.UtcNow.Date
@@ -48,7 +57,7 @@ namespace MessMate.Application.Features.Orders.Handlers
                 CustomerName = o.Customer.Name,
                 DeliveryAddress = o.Subscription.DeliveryAddress,
                 MealSlot = o.MealSlot.ToString(),
-                Status = o.Status.ToString(),
+                Status = (int)o.Status,
                 Amount = o.Amount,
                 OrderDate = o.OrderDate,
             }).ToList();

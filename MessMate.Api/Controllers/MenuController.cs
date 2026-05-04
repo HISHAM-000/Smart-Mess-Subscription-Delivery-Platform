@@ -20,7 +20,7 @@ namespace MessMate.Api.Controllers
         }
 
         [HttpPost("create-menu")]
-        [Authorize(Roles = "MessOwner")]
+        [Authorize(Roles = "MessOwner,MessStaff")]
         public async Task<IActionResult> CreateMenu(CreateMenuCommand command)
         {
             var id = await _mediator.Send(command);
@@ -28,15 +28,15 @@ namespace MessMate.Api.Controllers
         }
 
         [HttpPost("add-items")]
-        [Authorize(Roles = "MessOwner")]
-        public async Task<IActionResult> AddItem(AddMenuItemCommand command)
+        [Authorize(Roles = "MessOwner,MessStaff")]
+        public async Task<IActionResult> AddItem([FromBody] AddMenuItemCommand command)
         {
             var id = await _mediator.Send(command);
             return Ok(ApiResponse<int>.SuccessResponse(id, "Item added"));
         }
 
         [HttpPut("update-items/{itemId}")]
-        [Authorize(Roles = "MessOwner")]
+        [Authorize(Roles = "MessOwner,MessStaff")]
         public async Task<IActionResult> UpdateMenuItem(
             int itemId,
             UpdateMenuItemCommand command)

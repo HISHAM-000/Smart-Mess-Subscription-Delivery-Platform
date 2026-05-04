@@ -13,5 +13,6 @@ namespace MessMate.Domain.Interfaces.Repositories
         Task<bool> ExistsByOwnerIdAsync(int ownerId);
         Task<List<Mess>> GetAllMessesAsync(bool approvedOnly);
         Task<List<Mess>> GetPendingMessesAsync();
+        Task<Mess?> GetByStaffIdAsync(int staffId);
     }
 }

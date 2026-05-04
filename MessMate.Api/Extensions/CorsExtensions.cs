@@ -11,11 +11,15 @@
                 options.AddPolicy("AllowAngular",
                     policy =>
                     {
-                        policy.WithOrigins("http://localhost:4200",
-                            "http://localhost:57557")
-                              .AllowAnyHeader()
-                              .AllowAnyMethod()
-                              .AllowCredentials();
+                        policy.WithOrigins(
+                            "http://localhost:4200",
+                            "https://localhost:4200",
+                            "http://localhost:5757",
+                            "https://localhost:5757"
+                        )
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
                     });
             });
 
