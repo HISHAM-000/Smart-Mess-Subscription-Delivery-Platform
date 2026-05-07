@@ -9,6 +9,6 @@ namespace MessMate.Application.Features.Auth.Commands
 {
     public class LogoutCommand:IRequest<bool>
     {
-        public string RefreshToken { get; set; } = null!;
+        //public string RefreshToken { get; set; } = null!;
     }
 }

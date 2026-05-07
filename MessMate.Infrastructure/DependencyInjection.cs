@@ -59,9 +59,9 @@ namespace MessMate.Infrastructure
             services.AddScoped<OrderGenerationService>();
             services.AddScoped<IMenuRepository, MenuRepository>();
             services.AddScoped<IMenuItemRepository, MenuItemRepository>();
-
+            services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+            services.AddHttpContextAccessor();
             return services;
         }
 
-    }
-}
+    }}

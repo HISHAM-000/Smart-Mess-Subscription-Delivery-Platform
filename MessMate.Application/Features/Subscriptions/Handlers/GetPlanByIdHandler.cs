@@ -33,15 +33,36 @@ namespace MessMate.Application.Features.Subscriptions.Handlers
 
         public async Task<SubscriptionPlanDto> Handle(GetPlanByIdQuery request, CancellationToken ct)
         {
-            var userId = _currentUser.UserId;
+            //var userId = _currentUser.UserId;
 
-            var mess = await _messRepository.GetAsync(m => m.OwnerId == userId);
+            //var mess = await _messRepository.GetAsync(m => m.OwnerId == userId);
 
-            if (mess == null)
-                throw new NotFoundException("Mess not found");
+            //if (mess == null)
+            //    throw new NotFoundException("Mess not found");
 
-            var plan = await _planRepository.GetAsync(p =>
-                p.Id == request.Id && p.MessId == mess.Id);
+            //var plan = await _planRepository.GetAsync(p =>
+            //    p.Id == request.Id && p.MessId == mess.Id);
+
+            //if (plan == null)
+            //    throw new NotFoundException("Plan not found");
+
+            //return new SubscriptionPlanDto
+            //{
+            //    Id = plan.Id,
+            //    Name = plan.Name,
+
+            //    PlanType = plan.PlanType.ToString(),
+
+            //    Price = plan.Price,
+            //    DurationDays = plan.DurationDays,
+            //    MinActiveDays = plan.MinActiveDays,
+
+            //    IsBreakfast = plan.IsBreakfast,
+            //    IsLunch = plan.IsLunch,
+            //    IsDinner = plan.IsDinner
+            //};
+
+            var plan = await _planRepository.GetByIdAsync(request.Id);
 
             if (plan == null)
                 throw new NotFoundException("Plan not found");
@@ -49,6 +70,7 @@ namespace MessMate.Application.Features.Subscriptions.Handlers
             return new SubscriptionPlanDto
             {
                 Id = plan.Id,
+                MessId = plan.MessId,
                 Name = plan.Name,
 
                 PlanType = plan.PlanType.ToString(),

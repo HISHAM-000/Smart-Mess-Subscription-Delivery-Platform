@@ -27,7 +27,7 @@ namespace MessMate.Application.Features.Mess.Handlers
             CancellationToken cancellationToken)
         {
             var mess = await _unitOfWork.Messes.GetByOwnerIdAsync(_currentUser.UserId);
-            if (mess == null && !mess.IsActive)
+            if (mess == null || !mess.IsActive)
                 throw new NotFoundException("Mess not found");
 
             if (!mess.IsActive)

@@ -34,6 +34,7 @@ namespace MessMate.Application.Features.Subscriptions.Handlers
             return subscriptions.Select(s => new MySubscriptionDto
             {
                 Id = s.Id,
+                MessId = s.MessId,
                 PlanName = s.Plan.Name,
                 MessName = s.Mess.Name,
                 PlanType = s.Plan.PlanType.ToString(),

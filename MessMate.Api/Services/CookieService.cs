@@ -34,8 +34,14 @@ namespace MessMate.Api.Services
 
         public void ClearAuthCookies(HttpResponse response)
         {
-            response.Cookies.Delete("accessToken");
-            response.Cookies.Delete("refreshToken");
+            var options = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None
+            };
+            response.Cookies.Delete("accessToken", options);
+            response.Cookies.Delete("refreshToken", options);
         }
     }
 }

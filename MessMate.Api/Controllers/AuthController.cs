@@ -43,20 +43,24 @@ namespace MessMate.Api.Controllers
             return Ok(ApiResponse<LoginResponse>.SuccessResponse(user, "Login successfull"));
         }
 
-        [HttpPost("RefreshToken")]
-        public async Task<IActionResult> RefreshToken(RefreshTokenCommand command)
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshToken()
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(new RefreshTokenCommand());
+
             _cookieService.SetAuthCookies(Response, result.AccessToken, result.RefreshToken);
+
             return Ok(ApiResponse<LoginResponse>.SuccessResponse(result));
         }
 
-        [HttpPost("Logout")]
-        public async Task<IActionResult> Logout(LogoutCommand command)
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(new LogoutCommand());
+
             _cookieService.ClearAuthCookies(Response);
-            return Ok(ApiResponse<bool>.SuccessResponse(result, "Logout Successfull"));
+
+            return Ok(ApiResponse<bool>.SuccessResponse(result, "Logout Successful"));
         }
 
     }

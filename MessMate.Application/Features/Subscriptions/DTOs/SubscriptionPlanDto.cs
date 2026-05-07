@@ -9,6 +9,7 @@ namespace MessMate.Application.Features.Subscriptions.DTOs
     public class SubscriptionPlanDto
     {
         public int Id { get; set; }
+        public int MessId { get; set; }
         public string Name { get; set; } = null!;
         public string PlanType { get; set; } = null!;
         public decimal Price { get; set; }
