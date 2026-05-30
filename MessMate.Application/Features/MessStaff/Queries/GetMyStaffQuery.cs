@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace MessMate.Application.Features.MessStaff.Queries
 {
-    public record GetMyStaffQuery() : IRequest<List<StaffDto>>;
+    public record GetMyStaffQuery(int? MessId) : IRequest<List<StaffDto>>;
 }

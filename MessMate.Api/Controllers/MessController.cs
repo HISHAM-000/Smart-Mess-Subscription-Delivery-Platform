@@ -63,7 +63,7 @@ namespace MessMate.Api.Controllers
         }
 
         [Authorize(Roles = "MessOwner")]
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMess(int id)
         {
             var result = await _mediator.Send(new DeleteMessCommand { id = id });

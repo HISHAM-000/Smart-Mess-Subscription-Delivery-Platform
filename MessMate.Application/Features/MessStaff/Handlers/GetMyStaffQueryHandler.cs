@@ -30,13 +30,28 @@ namespace MessMate.Application.Features.MessStaff.Handlers
             GetMyStaffQuery request,
             CancellationToken cancellationToken)
         {
-            var mess = await _unitOfWork.Messes
-                .GetByOwnerIdAsync(_currentUser.UserId)
-                ?? throw new NotFoundException(
-                    "No mess found for this owner.");
+            int messId;
+
+            if (_currentUser.Role == "Admin")
+            {
+                // 🔥 Admin uses provided messId
+                if (request.MessId == null)
+                    throw new BadRequestException("MessId is required for admin");
+
+                messId = request.MessId.Value;
+            }
+            else
+            {
+                // 🔥 Owner uses own mess
+                var mess = await _unitOfWork.Messes
+                    .GetByOwnerIdAsync(_currentUser.UserId)
+                    ?? throw new NotFoundException("No mess found");
+
+                messId = mess.Id;
+            }
 
             var staff = await _unitOfWork.Users
-                .GetStaffByMessIdAsync(mess.Id);
+                .GetStaffByMessIdAsync(messId);
 
             return staff.Select(s => new StaffDto
             {

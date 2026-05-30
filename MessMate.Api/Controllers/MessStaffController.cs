@@ -29,10 +29,10 @@ namespace MessMate.Api.Controllers
         }
 
         [HttpGet("get-staff")]
-        [Authorize(Roles = "MessOwner")]
-        public async Task<IActionResult> GetMyStaff(CancellationToken ct)
+        [Authorize(Roles = "MessOwner,Admin")]
+        public async Task<IActionResult> GetMyStaff(int? messId, CancellationToken ct)
         {
-            var result = await _mediator.Send(new GetMyStaffQuery(), ct);
+            var result = await _mediator.Send(new GetMyStaffQuery(messId), ct);
 
             return Ok(ApiResponse<List<StaffDto>>.SuccessResponse(
                 result, "Staff retrieved."));
